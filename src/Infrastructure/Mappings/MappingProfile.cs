@@ -1,6 +1,6 @@
 using Defender.Common.Mapping;
 
-namespace Defender.ServiceTemplate.Infrastructure.Mappings;
+namespace Defender.JobSchedulerService.Infrastructure.Mappings;
 
 public class MappingProfile : BaseMappingProfile
 {

@@ -1,10 +1,10 @@
 ﻿using Defender.Common.Configuration.Options;
 using Defender.Common.Repositories;
-using Defender.ServiceTemplate.Application.Common.Interfaces.Repositories;
-using Defender.ServiceTemplate.Domain.Entities;
+using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
+using Defender.JobSchedulerService.Domain.Entities;
 using Microsoft.Extensions.Options;
 
-namespace Defender.ServiceTemplate.Infrastructure.Repositories.DomainModels;
+namespace Defender.JobSchedulerService.Infrastructure.Repositories.DomainModels;
 
 public class DomainModelRepository : MongoRepository<DomainModel>, IDomainModelRepository
 {

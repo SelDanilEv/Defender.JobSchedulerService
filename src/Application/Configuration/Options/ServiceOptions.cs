@@ -1,4 +1,4 @@
-﻿namespace Defender.ServiceTemplate.Application.Configuration.Options;
+﻿namespace Defender.JobSchedulerService.Application.Configuration.Options;
 
 public class ServiceOptions
 {

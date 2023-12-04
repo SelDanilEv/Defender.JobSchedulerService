@@ -1,9 +1,9 @@
 ﻿using Defender.Common.Exstension;
-using Defender.ServiceTemplate.Application.Configuration.Options;
+using Defender.JobSchedulerService.Application.Configuration.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Defender.ServiceTemplate.Application.Configuration.Exstension;
+namespace Defender.JobSchedulerService.Application.Configuration.Exstension;
 
 public static class ServiceOptionsExtensions
 {

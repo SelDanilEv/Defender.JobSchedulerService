@@ -1,8 +1,8 @@
-docker rm -f ServiceTemplate
-docker build . -t service-template && ^
-docker run -d --name ServiceTemplate -p 0000:80 ^
+docker rm -f JobSchedulerService
+docker build . -t job-scheduler-service && ^
+docker run -d --name JobSchedulerService -p 0000:80 ^
 --env-file ./../../secrets.list ^
 -e ASPNETCORE_ENVIRONMENT=DockerDev ^
--it service-template
-echo finish service-template
+-it job-scheduler-service
+echo finish job-scheduler-service
 pause

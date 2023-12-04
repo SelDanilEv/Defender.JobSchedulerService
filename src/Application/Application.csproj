@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace>Defender.ServiceTemplate.Application</RootNamespace>
-        <AssemblyName>Defender.ServiceTemplate.Application</AssemblyName>
+        <RootNamespace>Defender.JobSchedulerService.Application</RootNamespace>
+        <AssemblyName>Defender.JobSchedulerService.Application</AssemblyName>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>

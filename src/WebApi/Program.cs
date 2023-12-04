@@ -1,6 +1,6 @@
-using Defender.ServiceTemplate.Application;
-using Defender.ServiceTemplate.Infrastructure;
-using Defender.ServiceTemplate.WebUI;
+using Defender.JobSchedulerService.Application;
+using Defender.JobSchedulerService.Infrastructure;
+using Defender.JobSchedulerService.WebUI;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;

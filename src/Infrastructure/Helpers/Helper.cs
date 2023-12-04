@@ -1,4 +1,4 @@
-﻿namespace Defender.ServiceTemplate.Infrastructure.Helpers;
+﻿namespace Defender.JobSchedulerService.Infrastructure.Helpers;
 
 public class Helper
 {

@@ -3,18 +3,18 @@ using System.Reflection;
 using Defender.Common.Clients.Identity;
 using Defender.Common.Helpers;
 using Defender.Common.Interfaces;
-using Defender.ServiceTemplate.Application.Common.Interfaces;
-using Defender.ServiceTemplate.Application.Common.Interfaces.Repositories;
-using Defender.ServiceTemplate.Application.Common.Interfaces.Wrapper;
-using Defender.ServiceTemplate.Application.Configuration.Options;
-using Defender.ServiceTemplate.Infrastructure.Clients.Service;
-using Defender.ServiceTemplate.Infrastructure.Repositories.DomainModels;
-using Defender.ServiceTemplate.Infrastructure.Services;
+using Defender.JobSchedulerService.Application.Common.Interfaces;
+using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
+using Defender.JobSchedulerService.Application.Common.Interfaces.Wrapper;
+using Defender.JobSchedulerService.Application.Configuration.Options;
+using Defender.JobSchedulerService.Infrastructure.Clients.Service;
+using Defender.JobSchedulerService.Infrastructure.Repositories.DomainModels;
+using Defender.JobSchedulerService.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Defender.ServiceTemplate.Infrastructure;
+namespace Defender.JobSchedulerService.Infrastructure;
 
 public static class ConfigureServices
 {
