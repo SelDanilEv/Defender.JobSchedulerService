@@ -1,6 +1,6 @@
 ﻿namespace Defender.JobSchedulerService.Application.Configuration.Options;
 
-public class ServiceOptions
+public class JobRunningOptions
 {
-    public string Url { get; set; } = String.Empty;
+    public int LoopDelayMs { get; set; }
 }

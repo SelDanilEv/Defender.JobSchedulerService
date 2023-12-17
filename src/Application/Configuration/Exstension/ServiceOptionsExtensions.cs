@@ -9,7 +9,7 @@ public static class ServiceOptionsExtensions
 {
     public static IServiceCollection AddApplicationOptions(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<ServiceOptions>(configuration.GetSection(nameof(ServiceOptions)));
+        services.Configure<JobRunningOptions>(configuration.GetSection(nameof(JobRunningOptions)));
 
         return services;
     }

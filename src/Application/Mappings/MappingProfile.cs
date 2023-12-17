@@ -6,6 +6,6 @@ public class MappingProfile : BaseMappingProfile
 {
     public MappingProfile()
     {
-        //CreateMap<DomainModel, AccountDto>();
+        //CreateMap<ScheduledJob, AccountDto>();
     }
 }

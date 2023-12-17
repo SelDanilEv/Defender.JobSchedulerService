@@ -1,28 +1,28 @@
-﻿using System.Net.Http.Headers;
-using System.Reflection;
-using Defender.Common.Clients.Identity;
-using Defender.Common.Helpers;
-using Defender.Common.Interfaces;
+﻿using System.Reflection;
 using Defender.JobSchedulerService.Application.Common.Interfaces;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Wrapper;
-using Defender.JobSchedulerService.Application.Configuration.Options;
 using Defender.JobSchedulerService.Infrastructure.Clients.Service;
-using Defender.JobSchedulerService.Infrastructure.Repositories.DomainModels;
+using Defender.JobSchedulerService.Infrastructure.Clients.Service.Client;
+using Defender.JobSchedulerService.Infrastructure.Repositories.ScheduledJobs;
 using Defender.JobSchedulerService.Infrastructure.Services;
+using Defender.JobSchedulerService.Infrastructure.Services.Hosted;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Defender.JobSchedulerService.Infrastructure;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         RegisterServices(services);
+
+        RegisterHostedServices(services);
 
         RegisterRepositories(services);
 
@@ -35,43 +35,30 @@ public static class ConfigureServices
 
     private static void RegisterClientWrappers(IServiceCollection services)
     {
-        services.AddTransient<IServiceWrapper, ServiceWrapper>();
+        services.AddTransient<IGenericClientWrapper, GenericClientWrapper>();
     }
 
     private static void RegisterServices(IServiceCollection services)
     {
-        services.AddTransient<IService, Service>();
+        services.AddTransient<IJobManagementService, JobManagementService>();
+        services.AddTransient<IJobRunningService, JobManagementService>();
+    }
+
+    private static void RegisterHostedServices(IServiceCollection services)
+    {
+        services.AddHostedService<JobRunningBackgroundService>();
     }
 
     private static void RegisterRepositories(IServiceCollection services)
     {
-        services.AddSingleton<IDomainModelRepository, DomainModelRepository>();
+        services.AddSingleton<IScheduledJobRepository, ScheduledJobRepository>();
     }
 
-    private static void RegisterApiClients(IServiceCollection services, IConfiguration configuration)
+    private static void RegisterApiClients(
+        IServiceCollection services,
+        IConfiguration configuration)
     {
-        services.RegisterIdentityAsServiceClient(
-            async (serviceProvider, client) =>
-            {
-                client.BaseAddress = new Uri(serviceProvider.GetRequiredService<IOptions<ServiceOptions>>().Value.Url);
-                client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue(
-                    "Bearer",
-                    await InternalJwtHelper.GenerateInternalJWTAsync(configuration["JwtTokenIssuer"]));
-            });
-
-        services.RegisterIdentityClient(
-            (serviceProvider, client) =>
-            {
-                client.BaseAddress = new Uri(serviceProvider.GetRequiredService<IOptions<ServiceOptions>>().Value.Url);
-
-                var schemaAndToken = serviceProvider.GetRequiredService<IAccountAccessor>().Token?.Split(' ');
-
-                if (schemaAndToken?.Length == 2)
-                {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(schemaAndToken[0], schemaAndToken[1]);
-                }
-            });
+        services.AddHttpClient<IGenericClient, GenericClient>(nameof(GenericClient));
     }
 
 }
