@@ -24,9 +24,12 @@ public class JobManagementService : IJobManagementService, IJobRunningService
     {
         var settings = PaginationSettings<ScheduledJob>.DefaultRequest();
 
-        settings.AddFilter(
+
+
+        settings.SetupFindOptions(
             FindModelRequest<ScheduledJob>
-                .Init(x => x.Schedule.NextStartTime, DateTime.UtcNow, FilterType.Lt));
+                .Init(x => x.Schedule.NextStartTime, DateTime.UtcNow, FilterType.Lt)
+                .Sort(x => x.Schedule.NextStartTime, SortType.Desc));
 
         var pagedResult = await _scheduledJobRepository.GetScheduledJobsAsync(settings);
 
@@ -40,9 +43,11 @@ public class JobManagementService : IJobManagementService, IJobRunningService
 
         if (!String.IsNullOrWhiteSpace(name))
         {
-            var filterRequest = FindModelRequest<ScheduledJob>.Init(x => x.Name, name);
+            var filterRequest = FindModelRequest<ScheduledJob>
+                .Init(x => x.Name, name)
+                .Sort(x=> x.Schedule.NextStartTime, SortType.Desc);
 
-            settings.AddFilter(filterRequest);
+            settings.SetupFindOptions(filterRequest);
         }
 
         return await _scheduledJobRepository.GetScheduledJobsAsync(settings);
