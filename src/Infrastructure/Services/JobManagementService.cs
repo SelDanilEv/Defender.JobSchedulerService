@@ -45,7 +45,7 @@ public class JobManagementService : IJobManagementService, IJobRunningService
         {
             var filterRequest = FindModelRequest<ScheduledJob>
                 .Init(x => x.Name, name)
-                .Sort(x=> x.Schedule.NextStartTime, SortType.Desc);
+                .Sort(x => x.Schedule.NextStartTime, SortType.Desc);
 
             settings.SetupFindOptions(filterRequest);
         }
@@ -62,11 +62,11 @@ public class JobManagementService : IJobManagementService, IJobRunningService
     {
         var updateRequest = UpdateModelRequest<ScheduledJob>
             .Init(scheduledJob.Id)
-            .UpdateField(x => x.Name, scheduledJob.Name)
-            .UpdateField(x => x.Url, scheduledJob.Url)
-            .UpdateField(x => x.Schedule, scheduledJob.Schedule)
-            .UpdateField(x => x.Method, scheduledJob.Method)
-            .UpdateField(x => x.IsAuthorizationRequired, scheduledJob.IsAuthorizationRequired);
+            .Set(x => x.Name, scheduledJob.Name)
+            .Set(x => x.Url, scheduledJob.Url)
+            .Set(x => x.Schedule, scheduledJob.Schedule)
+            .Set(x => x.Method, scheduledJob.Method)
+            .Set(x => x.IsAuthorizationRequired, scheduledJob.IsAuthorizationRequired);
 
         return await _scheduledJobRepository.UpdateScheduledJobAsync(updateRequest);
     }
@@ -87,7 +87,7 @@ public class JobManagementService : IJobManagementService, IJobRunningService
 
             var updateRequest = UpdateModelRequest<ScheduledJob>
                 .Init(scheduledJob.Id)
-                .UpdateField(x => x.Schedule, scheduledJob.Schedule);
+                .Set(x => x.Schedule, scheduledJob.Schedule);
 
             await _scheduledJobRepository.UpdateScheduledJobAsync(updateRequest);
         }
