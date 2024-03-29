@@ -5,5 +5,5 @@ namespace Defender.JobSchedulerService.Application.Common.Interfaces;
 public interface IJobRunningService
 {
     Task<ICollection<ScheduledJob>> GetJobsToRunAsync();
-    Task RunJobAsync(ScheduledJob scheduledJob);
+    Task RunJobAsync(ScheduledJob scheduledJob, bool force = false);
 }

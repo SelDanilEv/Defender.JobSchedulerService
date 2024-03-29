@@ -1,20 +1,13 @@
 ﻿using Defender.Common.Entities;
-using Defender.JobSchedulerService.Domain.Enums;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
 
 namespace Defender.JobSchedulerService.Domain.Entities;
 
 public class ScheduledJob : IBaseModel
 {
-    public Guid Id { get; set; }
-
     public string? Name { get; set; }
-    public string? Url { get; set; }
-    [BsonRepresentation(BsonType.String)]
-    public SupportedHttpMethod Method { get; set; }
+    public Guid Id { get; set; }
+    public List<ScheduledTask> Tasks { get; set; } = new List<ScheduledTask>();
     public Schedule Schedule { get; set; } = new Schedule();
-    public bool IsAuthorizationRequired { get; set; }
 
     public ScheduledJob AddSchedule(DateTime startDate, int eachMinute, int eachHour)
     {
@@ -26,13 +19,15 @@ public class ScheduledJob : IBaseModel
         return this;
     }
 
-    public bool ScheduleNextRun()
+    public bool ScheduleNextRun(bool force = false)
     {
         if (Schedule == null) return false;
 
-        if (Schedule.NextStartTime > DateTime.UtcNow) return false;
+        if (!force && Schedule.NextStartTime > DateTime.UtcNow) return false;
 
-        Schedule.LastStartedDate = Schedule.NextStartTime;
+        Schedule.LastStartedDate = force 
+            ? DateTime.UtcNow.AddSeconds(-5)
+            : Schedule.NextStartTime;
         Schedule.NextStartTime = Schedule.LastStartedDate;
 
         while(Schedule.NextStartTime < DateTime.UtcNow)

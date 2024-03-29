@@ -1,5 +1,4 @@
 ﻿using Defender.Common.Errors;
-using Defender.Common.Interfaces;
 using Defender.JobSchedulerService.Application.Common.Interfaces;
 using FluentValidation;
 using MediatR;
@@ -21,23 +20,13 @@ public sealed class DeleteJobCommandValidator : AbstractValidator<DeleteJobComma
     }
 }
 
-public sealed class DeleteJobCommandHandler : IRequestHandler<DeleteJobCommand, Unit>
+public sealed class DeleteJobCommandHandler(
+        IJobManagementService accountManagementService)
+    : IRequestHandler<DeleteJobCommand, Unit>
 {
-    private readonly IAccountAccessor _accountAccessor;
-    private readonly IJobManagementService _accountManagementService;
-
-    public DeleteJobCommandHandler(
-        IAccountAccessor accountAccessor,
-        IJobManagementService accountManagementService
-        )
-    {
-        _accountAccessor = accountAccessor;
-        _accountManagementService = accountManagementService;
-    }
-
     public async Task<Unit> Handle(DeleteJobCommand request, CancellationToken cancellationToken)
     {
-        await _accountManagementService.DeleteJobAsync(request.Id);
+        await accountManagementService.DeleteJobAsync(request.Id);
 
         return Unit.Value;
     }

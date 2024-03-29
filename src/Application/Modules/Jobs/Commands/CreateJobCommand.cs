@@ -1,8 +1,6 @@
 ﻿using Defender.Common.Errors;
-using Defender.Common.Interfaces;
 using Defender.JobSchedulerService.Application.Common.Interfaces;
 using Defender.JobSchedulerService.Domain.Entities;
-using Defender.JobSchedulerService.Domain.Enums;
 using FluentValidation;
 using MediatR;
 
@@ -11,12 +9,10 @@ namespace Defender.JobSchedulerService.Application.Modules.Jobs.Commands;
 public record CreateJobCommand : IRequest<Unit>
 {
     public string? Name { get; set; }
-    public string? Url { get; set; }
-    public SupportedHttpMethod Method { get; set; } = SupportedHttpMethod.Get;
+    public List<ScheduledTask>? Tasks { get; set; }
     public DateTime StartDateTime { get; set; }
     public int EachMinutes { get; set; }
     public int EachHour { get; set; }
-    public bool IsAuthorizationRequired { get; set; } = false;
 };
 
 public sealed class CreateJobCommandValidator : AbstractValidator<CreateJobCommand>
@@ -24,10 +20,6 @@ public sealed class CreateJobCommandValidator : AbstractValidator<CreateJobComma
     public CreateJobCommandValidator()
     {
         RuleFor(s => s.Name)
-                  .NotEmpty()
-                  .NotNull().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_InvalidRequest));
-
-        RuleFor(s => s.Url)
           .NotEmpty()
           .NotNull().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_InvalidRequest));
 
@@ -46,33 +38,21 @@ public sealed class CreateJobCommandValidator : AbstractValidator<CreateJobComma
     }
 }
 
-public sealed class CreateJobCommandHandler : IRequestHandler<CreateJobCommand, Unit>
+public sealed class CreateJobCommandHandler(
+        IJobManagementService accountManagementService)
+    : IRequestHandler<CreateJobCommand, Unit>
 {
-    private readonly IAccountAccessor _accountAccessor;
-    private readonly IJobManagementService _accountManagementService;
-
-    public CreateJobCommandHandler(
-        IAccountAccessor accountAccessor,
-        IJobManagementService accountManagementService
-        )
-    {
-        _accountAccessor = accountAccessor;
-        _accountManagementService = accountManagementService;
-    }
-
     public async Task<Unit> Handle(CreateJobCommand request, CancellationToken cancellationToken)
     {
-        var job = new ScheduledJob
+        var job = new ScheduledJob()
         {
             Name = request.Name,
-            Url = request.Url,
-            Method = request.Method,
-            IsAuthorizationRequired = request.IsAuthorizationRequired,
+            Tasks = request.Tasks ?? new List<ScheduledTask>()
         };
 
         job.AddSchedule(request.StartDateTime, request.EachMinutes, request.EachHour);
 
-        await _accountManagementService.CreateJobAsync(job);
+        await accountManagementService.CreateJobAsync(job);
 
         return Unit.Value;
     }

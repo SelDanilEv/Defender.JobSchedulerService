@@ -7,8 +7,6 @@ using Defender.JobSchedulerService.Application.Modules.Jobs.Commands;
 using Defender.JobSchedulerService.Application.Modules.Jobs.Querys;
 using Defender.Common.DB.Pagination;
 using Defender.JobSchedulerService.Domain.Entities;
-using Defender.Common.Attributes;
-using Defender.Common.Models;
 
 namespace Defender.JobSchedulerService.WebUI.Controllers.V1;
 
@@ -20,11 +18,20 @@ public class JobManagementController : BaseApiController
 
     [HttpGet("get")]
     //[Auth(Roles.Admin)]
-    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<ScheduledJob>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<PagedResult<ScheduledJob>> GetJobsAsync([FromQuery] GetJobsQuery query)
     {
         return await ProcessApiCallAsync<GetJobsQuery, PagedResult<ScheduledJob>>(query);
+    }
+
+    [HttpPost("start")]
+    //[Auth(Roles.Admin)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task StartJobAsync([FromBody] StartJobCommand command)
+    {
+        await ProcessApiCallAsync(command);
     }
 
     [HttpPost("create")]
