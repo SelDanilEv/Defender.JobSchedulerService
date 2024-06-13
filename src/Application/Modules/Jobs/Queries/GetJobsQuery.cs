@@ -2,6 +2,7 @@
 using Defender.JobSchedulerService.Application.Common.Interfaces;
 using Defender.JobSchedulerService.Domain.Entities;
 using FluentValidation;
+using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.JobSchedulerService.Application.Modules.Jobs.Querys;

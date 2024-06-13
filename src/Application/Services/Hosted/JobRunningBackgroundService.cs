@@ -3,7 +3,7 @@ using Defender.JobSchedulerService.Application.Configuration.Options;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
-namespace Defender.JobSchedulerService.Infrastructure.Services.Hosted;
+namespace Defender.JobSchedulerService.Application.Services.Hosted;
 
 public class JobRunningBackgroundService : BackgroundService
 {

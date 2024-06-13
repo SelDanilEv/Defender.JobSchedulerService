@@ -1,6 +1,7 @@
 ﻿using Defender.Common.Errors;
 using Defender.JobSchedulerService.Application.Common.Interfaces;
 using FluentValidation;
+using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.JobSchedulerService.Application.Modules.Jobs.Commands;
@@ -15,8 +16,9 @@ public sealed class StartJobCommandValidator : AbstractValidator<StartJobCommand
     public StartJobCommandValidator()
     {
         RuleFor(s => s.Name)
-          .NotEmpty()
-          .NotNull().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_InvalidRequest));
+            .NotEmpty()
+            .NotNull()
+            .WithMessage(ErrorCode.VL_InvalidRequest);
     }
 }
 
@@ -36,7 +38,7 @@ public sealed class StartJobCommandHandler(
             return Unit.Value;
         }
 
-        foreach(var item in job.Items)
+        foreach (var item in job.Items)
         {
             await jobRunningService.RunJobAsync(item, true);
         }

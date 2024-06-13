@@ -1,11 +1,11 @@
 using Defender.JobSchedulerService.Application;
 using Defender.JobSchedulerService.Infrastructure;
-using Defender.JobSchedulerService.WebUI;
+using Defender.GeneralTestingService.WebApi;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Defender.Common.Exstension;
+using Defender.Common.Extension;
 using Microsoft.Extensions.Logging;
 using Serilog;
 

@@ -8,7 +8,7 @@ using Defender.JobSchedulerService.Application.Modules.Jobs.Querys;
 using Defender.Common.DB.Pagination;
 using Defender.JobSchedulerService.Domain.Entities;
 
-namespace Defender.JobSchedulerService.WebUI.Controllers.V1;
+namespace Defender.GeneralTestingService.WebApi.Controllers.V1;
 
 public class JobManagementController : BaseApiController
 {

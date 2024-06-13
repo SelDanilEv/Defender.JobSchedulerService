@@ -2,6 +2,7 @@
 using Defender.JobSchedulerService.Application.Common.Interfaces;
 using Defender.JobSchedulerService.Domain.Entities;
 using FluentValidation;
+using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.JobSchedulerService.Application.Modules.Jobs.Commands;
@@ -22,19 +23,21 @@ public sealed class UpdateJobCommandValidator : AbstractValidator<UpdateJobComma
     {
         RuleFor(s => s.Id)
             .NotEmpty()
-            .NotNull().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_InvalidRequest));
+            .NotNull()
+            .WithMessage(ErrorCode.VL_InvalidRequest);
 
         RuleFor(s => s.Name)
             .NotEmpty()
-            .NotNull().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_InvalidRequest));
+            .NotNull()
+            .WithMessage(ErrorCode.VL_InvalidRequest);
 
         RuleFor(command => command)
             .Must(command => command.EachMinutes > 0 || command.EachHour > 0)
-            .WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_InvalidRequest));
+            .WithMessage(ErrorCode.VL_InvalidRequest);
 
         RuleFor(command => command.StartDateTime)
             .Must(BeInFuture)
-            .WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_InvalidRequest));
+            .WithMessage(ErrorCode.VL_InvalidRequest);
     }
 
     private static bool BeInFuture(DateTime startDateTime)
@@ -44,7 +47,7 @@ public sealed class UpdateJobCommandValidator : AbstractValidator<UpdateJobComma
 }
 
 public sealed class UpdateJobCommandHandler(
-        IJobManagementService accountManagementService) 
+        IJobManagementService accountManagementService)
     : IRequestHandler<UpdateJobCommand, Unit>
 {
     public async Task<Unit> Handle(

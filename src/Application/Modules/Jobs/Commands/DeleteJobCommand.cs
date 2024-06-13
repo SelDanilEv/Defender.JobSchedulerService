@@ -1,6 +1,7 @@
 ﻿using Defender.Common.Errors;
 using Defender.JobSchedulerService.Application.Common.Interfaces;
 using FluentValidation;
+using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.JobSchedulerService.Application.Modules.Jobs.Commands;
@@ -16,7 +17,8 @@ public sealed class DeleteJobCommandValidator : AbstractValidator<DeleteJobComma
     {
         RuleFor(s => s.Id)
           .NotEmpty()
-          .NotNull().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_InvalidRequest));
+          .NotNull()
+          .WithMessage(ErrorCode.VL_InvalidRequest);
     }
 }
 

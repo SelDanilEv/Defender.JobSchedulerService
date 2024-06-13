@@ -5,7 +5,7 @@ using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Wrapper;
 using Defender.JobSchedulerService.Domain.Entities;
 
-namespace Defender.JobSchedulerService.Infrastructure.Services;
+namespace Defender.JobSchedulerService.Application.Services;
 
 public class JobManagementService(
         IScheduledJobRepository scheduledJobRepository,
