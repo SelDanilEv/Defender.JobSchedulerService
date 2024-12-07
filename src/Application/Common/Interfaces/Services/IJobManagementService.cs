@@ -1,7 +1,7 @@
 ﻿using Defender.Common.DB.Pagination;
 using Defender.JobSchedulerService.Domain.Entities;
 
-namespace Defender.JobSchedulerService.Application.Common.Interfaces;
+namespace Defender.JobSchedulerService.Application.Common.Interfaces.Services;
 
 public interface IJobManagementService
 {

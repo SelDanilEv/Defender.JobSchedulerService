@@ -1,7 +1,7 @@
 ﻿using Defender.Common.DB.Model;
 using Defender.Common.DB.Pagination;
-using Defender.JobSchedulerService.Application.Common.Interfaces;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
+using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Wrapper;
 using Defender.JobSchedulerService.Domain.Entities;
 
@@ -14,9 +14,7 @@ public class JobManagementService(
 {
     public async Task<ICollection<ScheduledJob>> GetJobsToRunAsync()
     {
-        var settings = PaginationSettings<ScheduledJob>.DefaultRequest();
-
-
+        var settings = PaginationSettings<ScheduledJob>.WithoutPagination();
 
         settings.SetupFindOptions(
             FindModelRequest<ScheduledJob>
@@ -74,7 +72,7 @@ public class JobManagementService(
             {
                 if (task == null || task.Url == null) continue;
                 var _ = clientWrapper.SendRequestAsync(
-                    task.Url,   
+                    task.Url,
                     task.Method,
                     task.IsAuthorizationRequired);
             }

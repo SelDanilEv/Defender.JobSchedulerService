@@ -25,12 +25,12 @@ public class ScheduledJob : IBaseModel
 
         if (!force && Schedule.NextStartTime > DateTime.UtcNow) return false;
 
-        Schedule.LastStartedDate = force 
+        Schedule.LastStartedDate = force
             ? DateTime.UtcNow.AddSeconds(-5)
             : Schedule.NextStartTime;
         Schedule.NextStartTime = Schedule.LastStartedDate;
 
-        while(Schedule.NextStartTime < DateTime.UtcNow)
+        while (Schedule.NextStartTime < DateTime.UtcNow)
         {
             Schedule.NextStartTime = Schedule.NextStartTime
                 .AddMinutes(Schedule.EachMinutes)

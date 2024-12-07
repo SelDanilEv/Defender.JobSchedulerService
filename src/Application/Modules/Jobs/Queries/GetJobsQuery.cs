@@ -1,15 +1,14 @@
 ﻿using Defender.Common.DB.Pagination;
-using Defender.JobSchedulerService.Application.Common.Interfaces;
+using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
 using Defender.JobSchedulerService.Domain.Entities;
 using FluentValidation;
-using Defender.Common.Extension;
 using MediatR;
 
-namespace Defender.JobSchedulerService.Application.Modules.Jobs.Querys;
+namespace Defender.JobSchedulerService.Application.Modules.Jobs.Queries;
 
 public record GetJobsQuery : PaginationRequest, IRequest<PagedResult<ScheduledJob>>
 {
-    public string? Name { get; set; } = String.Empty;
+    public string? Name { get; set; } = string.Empty;
 };
 
 public sealed class GetJobsQueryValidator : AbstractValidator<GetJobsQuery>

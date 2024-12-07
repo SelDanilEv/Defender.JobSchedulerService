@@ -1,7 +1,7 @@
 ﻿using Defender.Common.Errors;
-using Defender.JobSchedulerService.Application.Common.Interfaces;
-using FluentValidation;
 using Defender.Common.Extension;
+using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
+using FluentValidation;
 using MediatR;
 
 namespace Defender.JobSchedulerService.Application.Modules.Jobs.Commands;

@@ -1,14 +1,14 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using Defender.JobSchedulerService.Application.Modules.Jobs.Commands;
-using Defender.JobSchedulerService.Application.Modules.Jobs.Querys;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Defender.Common.DB.Pagination;
+using Defender.JobSchedulerService.Application.Modules.Jobs.Commands;
+using Defender.JobSchedulerService.Application.Modules.Jobs.Queries;
 using Defender.JobSchedulerService.Domain.Entities;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Defender.GeneralTestingService.WebApi.Controllers.V1;
+namespace WebApi.Controllers.V1;
 
 public class JobManagementController : BaseApiController
 {

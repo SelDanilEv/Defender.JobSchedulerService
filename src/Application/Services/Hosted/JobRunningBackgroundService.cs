@@ -1,4 +1,4 @@
-﻿using Defender.JobSchedulerService.Application.Common.Interfaces;
+﻿using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
 using Defender.JobSchedulerService.Application.Configuration.Options;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;

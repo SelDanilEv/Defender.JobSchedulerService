@@ -6,7 +6,7 @@ using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
 using Defender.JobSchedulerService.Domain.Entities;
 using Microsoft.Extensions.Options;
 
-namespace Defender.JobSchedulerService.Infrastructure.Repositories.ScheduledJobs;
+namespace Defender.JobSchedulerService.Infrastructure.Repositories;
 
 public class ScheduledJobRepository : BaseMongoRepository<ScheduledJob>, IScheduledJobRepository
 {

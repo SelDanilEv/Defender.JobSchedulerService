@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
+using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
+using Defender.JobSchedulerService.Application.Services;
+using Defender.JobSchedulerService.Application.Services.Hosted;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Defender.JobSchedulerService.Application.Common.Interfaces;
-using Defender.JobSchedulerService.Application.Services.Hosted;
-using Defender.JobSchedulerService.Application.Services;
 
 namespace Defender.JobSchedulerService.Application;
 

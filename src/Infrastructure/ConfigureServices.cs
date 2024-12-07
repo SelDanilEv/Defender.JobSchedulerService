@@ -3,7 +3,7 @@ using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Wrapper;
 using Defender.JobSchedulerService.Infrastructure.Clients.Service;
 using Defender.JobSchedulerService.Infrastructure.Clients.Service.Client;
-using Defender.JobSchedulerService.Infrastructure.Repositories.ScheduledJobs;
+using Defender.JobSchedulerService.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
