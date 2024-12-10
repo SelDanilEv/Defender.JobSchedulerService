@@ -5,18 +5,12 @@ using Microsoft.Extensions.Options;
 
 namespace Defender.JobSchedulerService.Application.Services.Background;
 
-public class JobRunningBackgroundService : BackgroundService
+public class JobRunningBackgroundService(
+    IOptions<JobRunningOptions> options,
+    IJobRunningService jobRunningService)
+    : BackgroundService
 {
-    private readonly int _loopDelayMs;
-    private readonly IJobRunningService _jobRunningService;
-
-    public JobRunningBackgroundService(
-        IOptions<JobRunningOptions> options,
-        IJobRunningService jobRunningService)
-    {
-        _loopDelayMs = options.Value.LoopDelayMs;
-        _jobRunningService = jobRunningService;
-    }
+    private readonly int _loopDelayMs = options.Value.LoopDelayMs;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -24,11 +18,11 @@ public class JobRunningBackgroundService : BackgroundService
         {
             await Task.Delay(_loopDelayMs, stoppingToken);
 
-            var jobsToRun = await _jobRunningService.GetJobsToRunAsync();
+            var jobsToRun = await jobRunningService.GetJobsToRunAsync();
 
             await Parallel.ForEachAsync(jobsToRun, async (job, cancellationToken) =>
             {
-                await _jobRunningService.RunJobAsync(job);
+                await jobRunningService.RunJobAsync(job);
             });
         }
     }
