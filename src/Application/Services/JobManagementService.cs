@@ -1,15 +1,15 @@
 ﻿using Defender.Common.DB.Model;
 using Defender.Common.DB.Pagination;
+using Defender.Common.Kafka.Default;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
-using Defender.JobSchedulerService.Application.Common.Interfaces.Wrapper;
 using Defender.JobSchedulerService.Domain.Entities;
 
 namespace Defender.JobSchedulerService.Application.Services;
 
 public class JobManagementService(
-        IScheduledJobRepository scheduledJobRepository,
-        IGenericClientWrapper clientWrapper)
+        IDefaultKafkaProducer<string> kafkaProducer,
+        IScheduledJobRepository scheduledJobRepository)
     : IJobManagementService, IJobRunningService
 {
     public async Task<ICollection<ScheduledJob>> GetJobsToRunAsync()
@@ -53,7 +53,6 @@ public class JobManagementService(
         var updateRequest = UpdateModelRequest<ScheduledJob>
             .Init(scheduledJob.Id)
             .Set(x => x.Name, scheduledJob.Name)
-            .Set(x => x.Tasks, scheduledJob.Tasks)
             .Set(x => x.Schedule, scheduledJob.Schedule);
 
         return await scheduledJobRepository.UpdateScheduledJobAsync(updateRequest);
@@ -68,14 +67,10 @@ public class JobManagementService(
     {
         if (scheduledJob.ScheduleNextRun(force))
         {
-            foreach (var task in scheduledJob.Tasks)
-            {
-                if (task == null || task.Url == null) continue;
-                var _ = clientWrapper.SendRequestAsync(
-                    task.Url,
-                    task.Method,
-                    task.IsAuthorizationRequired);
-            }
+            await kafkaProducer.ProduceAsync(
+                scheduledJob.Topic, 
+                scheduledJob.Event,
+                CancellationToken.None);
 
             var updateRequest = UpdateModelRequest<ScheduledJob>
                 .Init(scheduledJob.Id)

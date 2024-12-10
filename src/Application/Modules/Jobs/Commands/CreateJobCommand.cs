@@ -10,7 +10,8 @@ namespace Defender.JobSchedulerService.Application.Modules.Jobs.Commands;
 public record CreateJobCommand : IRequest<Unit>
 {
     public string? Name { get; set; }
-    public List<ScheduledTask>? Tasks { get; set; }
+    public string Topic { get; set; } = String.Empty;
+    public string Event { get; set; } = String.Empty;
     public DateTime StartDateTime { get; set; }
     public int EachMinutes { get; set; }
     public int EachHour { get; set; }
@@ -28,9 +29,9 @@ public sealed class CreateJobCommandValidator : AbstractValidator<CreateJobComma
             .Must(command => command.EachMinutes > 0 || command.EachHour > 0)
             .WithMessage(ErrorCode.VL_InvalidRequest);
 
-        RuleFor(command => command.StartDateTime)
-            .Must(BeInFuture)
-            .WithMessage(ErrorCode.VL_InvalidRequest);
+        //RuleFor(command => command.StartDateTime)
+        //    .Must(BeInFuture)
+        //    .WithMessage(ErrorCode.VL_InvalidRequest);
     }
 
     private static bool BeInFuture(DateTime startDateTime)
@@ -48,7 +49,8 @@ public sealed class CreateJobCommandHandler(
         var job = new ScheduledJob()
         {
             Name = request.Name,
-            Tasks = request.Tasks ?? new List<ScheduledTask>()
+            Topic = request.Topic,
+            Event = request.Event
         };
 
         job.AddSchedule(request.StartDateTime, request.EachMinutes, request.EachHour);

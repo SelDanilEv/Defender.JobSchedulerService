@@ -1,8 +1,5 @@
 ﻿using System.Reflection;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
-using Defender.JobSchedulerService.Application.Common.Interfaces.Wrapper;
-using Defender.JobSchedulerService.Infrastructure.Clients.Service;
-using Defender.JobSchedulerService.Infrastructure.Clients.Service.Client;
 using Defender.JobSchedulerService.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +16,6 @@ public static class ConfigureServices
 
         RegisterRepositories(services);
 
-        RegisterApiClients(services, configuration);
 
         RegisterClientWrappers(services);
 
@@ -28,7 +24,6 @@ public static class ConfigureServices
 
     private static void RegisterClientWrappers(IServiceCollection services)
     {
-        services.AddTransient<IGenericClientWrapper, GenericClientWrapper>();
     }
 
     private static void RegisterRepositories(IServiceCollection services)
@@ -36,11 +31,5 @@ public static class ConfigureServices
         services.AddSingleton<IScheduledJobRepository, ScheduledJobRepository>();
     }
 
-    private static void RegisterApiClients(
-        IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddHttpClient<IGenericClient, GenericClient>(nameof(GenericClient));
-    }
 
 }

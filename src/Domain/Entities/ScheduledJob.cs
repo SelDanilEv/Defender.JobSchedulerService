@@ -1,12 +1,18 @@
 ﻿using Defender.Common.Entities;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Defender.JobSchedulerService.Domain.Entities;
 
 public class ScheduledJob : IBaseModel
 {
-    public string? Name { get; set; }
+    [BsonId]
+    [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
-    public List<ScheduledTask> Tasks { get; set; } = new List<ScheduledTask>();
+
+    public string Name { get; set; } = String.Empty;
+    public string Topic { get; set; } = String.Empty;
+    public string Event { get; set; } = String.Empty;
     public Schedule Schedule { get; set; } = new Schedule();
 
     public ScheduledJob AddSchedule(DateTime startDate, int eachMinute, int eachHour)

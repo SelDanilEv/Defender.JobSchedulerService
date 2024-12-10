@@ -1,10 +1,13 @@
 ﻿using System.Reflection;
+using Defender.Common.Extension.Kafka;
+using Defender.Common.Configuration.Options.Kafka;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
 using Defender.JobSchedulerService.Application.Services;
-using Defender.JobSchedulerService.Application.Services.Hosted;
 using FluentValidation;
+using Defender.Common.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Defender.JobSchedulerService.Application.Services.Background;
 
 namespace Defender.JobSchedulerService.Application;
 
@@ -16,20 +19,37 @@ public static class ConfigureServices
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-        RegisterServices(services);
+        services.RegisterServices();
 
-        RegisterHostedServices(services);
+        services.RegisterHostedServices();
+
+        services.RegisterKafkaServices(configuration);
 
         return services;
     }
 
-    private static void RegisterServices(IServiceCollection services)
+    private static IServiceCollection RegisterKafkaServices(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.Configure<KafkaOptions>(configuration.GetSection(nameof(KafkaOptions)));
+
+        services.AddJsonSerializer();
+
+        services.AddDefaultKafkaProducer();
+
+        //services.AddHostedService<CreateKafkaTopicsService>();
+
+        return services;
+    }
+
+    private static void RegisterServices(this IServiceCollection services)
     {
         services.AddTransient<IJobManagementService, JobManagementService>();
         services.AddTransient<IJobRunningService, JobManagementService>();
     }
 
-    private static void RegisterHostedServices(IServiceCollection services)
+    private static void RegisterHostedServices(this IServiceCollection services)
     {
         services.AddHostedService<JobRunningBackgroundService>();
     }
