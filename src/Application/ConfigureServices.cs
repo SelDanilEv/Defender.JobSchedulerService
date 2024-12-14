@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
-using Defender.Common.Extension.Kafka;
+using Defender.Common.Kafka.Extension;
 using Defender.Common.Configuration.Options.Kafka;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
 using Defender.JobSchedulerService.Application.Services;
 using FluentValidation;
-using Defender.Common.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Defender.JobSchedulerService.Application.Services.Background;
@@ -32,13 +31,10 @@ public static class ConfigureServices
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.Configure<KafkaOptions>(configuration.GetSection(nameof(KafkaOptions)));
-
-        services.AddJsonSerializer();
-
-        services.AddDefaultKafkaProducer();
-
-        //services.AddHostedService<CreateKafkaTopicsService>();
+        services.AddKafka(options =>
+        {
+            configuration.GetSection(nameof(KafkaOptions)).Bind(options);
+        });
 
         return services;
     }
