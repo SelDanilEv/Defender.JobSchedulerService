@@ -22,7 +22,6 @@
 
     <ItemGroup>
       <Folder Include="Common\Behaviours\" />
-      <Folder Include="Models\" />
     </ItemGroup>
 
 </Project>

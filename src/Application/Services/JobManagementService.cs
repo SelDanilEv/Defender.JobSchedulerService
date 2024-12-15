@@ -1,9 +1,9 @@
 ﻿using Defender.Common.DB.Model;
 using Defender.Common.DB.Pagination;
-using Defender.Common.Kafka.Default;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Repositories;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
 using Defender.JobSchedulerService.Domain.Entities;
+using Defender.Kafka.Default;
 
 namespace Defender.JobSchedulerService.Application.Services;
 

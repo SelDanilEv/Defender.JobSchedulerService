@@ -1,18 +1,15 @@
-﻿using Defender.Common.Configuration.Options.Kafka;
-using Defender.Common.Kafka.BackgroundServices;
+﻿using Defender.Kafka.BackgroundServices;
+using Defender.Kafka.Configuration.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Defender.RiskGamesService.Application.Services.Background;
+namespace Defender.JobSchedulerService.Application.Services.Background.Kafka;
 
-public class CreateKafkaTopicsService : EnsureTopicsCreatedService
+public class CreateKafkaTopicsService(
+    IOptions<KafkaOptions> kafkaOptions,
+    ILogger<CreateKafkaTopicsService> logger)
+    : EnsureTopicsCreatedService(kafkaOptions, logger)
 {
-    public CreateKafkaTopicsService(
-        IOptions<KafkaOptions> kafkaOptions,
-        ILogger<CreateKafkaTopicsService> logger) : base(kafkaOptions, logger)
-    {
-    }
-
     protected override IEnumerable<string> Topics =>
         [
         ];
