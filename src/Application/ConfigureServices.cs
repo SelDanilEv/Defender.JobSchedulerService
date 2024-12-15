@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
 using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
 using Defender.JobSchedulerService.Application.Services;
-using FluentValidation;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Defender.JobSchedulerService.Application.Services.Background;
 using Defender.Kafka.Configuration.Options;
 using Defender.Kafka.Extension;
+using FluentValidation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Defender.JobSchedulerService.Application;
 

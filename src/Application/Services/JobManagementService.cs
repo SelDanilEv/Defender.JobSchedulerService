@@ -68,7 +68,7 @@ public class JobManagementService(
         if (scheduledJob.ScheduleNextRun(force))
         {
             await kafkaProducer.ProduceAsync(
-                scheduledJob.Topic, 
+                scheduledJob.Topic,
                 scheduledJob.Event,
                 CancellationToken.None);
 
