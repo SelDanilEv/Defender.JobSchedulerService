@@ -2,6 +2,7 @@
 using Defender.JobSchedulerService.Application.Common.Interfaces.Services;
 using Defender.JobSchedulerService.Application.Services;
 using Defender.JobSchedulerService.Application.Services.Background;
+using Defender.JobSchedulerService.Application.Services.Background.Kafka;
 using Defender.Kafka.Configuration.Options;
 using Defender.Kafka.Extension;
 using FluentValidation;
@@ -47,6 +48,8 @@ public static class ConfigureServices
 
     private static void RegisterHostedServices(this IServiceCollection services)
     {
+        services.AddHostedService<CreateKafkaTopicsService>();
+        
         services.AddHostedService<JobRunningBackgroundService>();
     }
 }
