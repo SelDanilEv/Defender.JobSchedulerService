@@ -19,11 +19,10 @@ public static class ConfigureServices
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-        services.RegisterServices();
+        services.RegisterKafkaServices(configuration)
+            .RegisterServices()
+            .RegisterHostedServices();
 
-        services.RegisterHostedServices();
-
-        services.RegisterKafkaServices(configuration);
 
         return services;
     }
@@ -40,16 +39,19 @@ public static class ConfigureServices
         return services;
     }
 
-    private static void RegisterServices(this IServiceCollection services)
+    private static IServiceCollection RegisterServices(this IServiceCollection services)
     {
         services.AddTransient<IJobManagementService, JobManagementService>();
         services.AddTransient<IJobRunningService, JobManagementService>();
+
+        return services;
     }
 
-    private static void RegisterHostedServices(this IServiceCollection services)
+    private static IServiceCollection RegisterHostedServices(this IServiceCollection services)
     {
         services.AddHostedService<CreateKafkaTopicsService>();
-        
         services.AddHostedService<JobRunningBackgroundService>();
+
+        return services;
     }
 }
