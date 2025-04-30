@@ -16,19 +16,14 @@ public static class ConfigureServices
 
         RegisterRepositories(services);
 
-
-        RegisterClientWrappers(services);
-
         return services;
     }
 
-    private static void RegisterClientWrappers(IServiceCollection services)
-    {
-    }
-
-    private static void RegisterRepositories(IServiceCollection services)
+    private static IServiceCollection RegisterRepositories(IServiceCollection services)
     {
         services.AddSingleton<IScheduledJobRepository, ScheduledJobRepository>();
+
+        return services;
     }
 
 
