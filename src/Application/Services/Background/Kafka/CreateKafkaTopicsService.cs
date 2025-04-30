@@ -15,15 +15,12 @@ public class CreateKafkaTopicsService(
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        restart_go_to:
-
         try
         {
-            
             logger.LogInformation("Starting background service with guard");
             logger.LogInformation("Kafka instance: {0}", kafkaOptions.Value.BootstrapServers);
 
-            await Task.Delay(5000);
+            await Task.Delay(1000);
             logger.LogInformation("GOGOGO");
 
             await base.ExecuteAsync(stoppingToken);
@@ -31,8 +28,6 @@ public class CreateKafkaTopicsService(
         catch(Exception ex)
         {
             logger.LogError(ex.InnerException, "Create topic background service failed");
-
-            goto restart_go_to;
         }
     }
 
