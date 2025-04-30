@@ -23,7 +23,6 @@ public static class ConfigureServices
             .RegisterServices()
             .RegisterHostedServices();
 
-
         return services;
     }
 

@@ -13,6 +13,18 @@ public class CreateKafkaTopicsService(
     ILogger<CreateKafkaTopicsService> logger)
     : EnsureTopicsCreatedService(kafkaOptions,kafkaEnvPrefixer, logger)
 {
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        try
+        {
+            await base.ExecuteAsync(stoppingToken);
+        }
+        catch(Exception ex)
+        {
+            logger.LogError(ex, "Create topic background service failed");
+        }
+    }
+
     protected override IEnumerable<string> Topics =>
         [
             Topic.TransactionStatusUpdates.GetName(),
