@@ -13,24 +13,6 @@ public class CreateKafkaTopicsService(
     ILogger<CreateKafkaTopicsService> logger)
     : EnsureTopicsCreatedService(kafkaOptions, kafkaEnvPrefixer, logger)
 {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        try
-        {
-            logger.LogInformation("Starting background service with guard");
-            logger.LogInformation("Kafka instance: {0}", kafkaOptions.Value.BootstrapServers);
-
-            await Task.Delay(1000);
-            logger.LogInformation("GOGOGO");
-
-            await base.ExecuteAsync(stoppingToken);
-        }
-        catch(Exception ex)
-        {
-            logger.LogError(ex.InnerException, "Create topic background service failed");
-        }
-    }
-
     protected override IEnumerable<string> Topics =>
         [
             Topic.TransactionStatusUpdates.GetName(),
