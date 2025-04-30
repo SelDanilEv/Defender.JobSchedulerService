@@ -19,6 +19,10 @@ public class CreateKafkaTopicsService(
         {
             logger.LogInformation("Starting background service with guard");
             logger.LogInformation("Kafka instance: {0}", kafkaOptions.Value.BootstrapServers);
+
+            await Task.Delay(5000);
+            logger.LogInformation("GOGOGO");
+
             await base.ExecuteAsync(stoppingToken);
         }
         catch(Exception ex)
