@@ -17,6 +17,7 @@ public class CreateKafkaTopicsService(
     {
         try
         {
+            logger.LogInformation("Starting background service with guard");
             await base.ExecuteAsync(stoppingToken);
         }
         catch(Exception ex)
