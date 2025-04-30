@@ -23,7 +23,7 @@ public class CreateKafkaTopicsService(
         }
         catch(Exception ex)
         {
-            logger.LogError(ex, "Create topic background service failed");
+            logger.LogError(ex.InnerException, "Create topic background service failed");
         }
     }
 
